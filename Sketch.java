@@ -7,21 +7,17 @@ public class Sketch extends PApplet {
   PImage Gameover;
   PImage Shoota;
   PImage bullet;
-  // Bullet b;
 
 
   boolean createInvader = true; 
   int [] anylivers = new int [15];
   int invaderCoord = 0;
-  boolean moveDown = true;
-  int invaderPos = 20;
-  int invaderPos2 = 70;
   int [] invArmy = new int[15];
   int invSpeedX = 1;
   float invadePathX = -100;
   float invadePathY = 500;
   boolean firststrike = false;
-  int difficulty = 1;
+  int difficulty = 2;
 
 
   int rightval = 0;
@@ -32,6 +28,7 @@ public class Sketch extends PApplet {
   boolean keydown = false;
   boolean keyright = false;
   boolean keyleft = false;
+  int leftrightforward = 0;
   
 
   int bulletspeed = 1;
@@ -67,6 +64,7 @@ public class Sketch extends PApplet {
         }
       }
     }
+  }
 
   
 
@@ -91,22 +89,22 @@ public class Sketch extends PApplet {
     for (int one = 0; one < anylivers.length; one++) {
       anylivers[one] = 1;
     }
+    
 
     }
   }
 
   
   public void draw() {
+    leftrightforward = leftrightforward + 1;
 
     background(0);
     if (difficulty == 1) {
       for (int i = 0; i < invArmy.length; i++) {
         if (anylivers[i] == 1) {
-          int leftrightforward = 0;
-          leftrightforward = leftrightforward + 1;
           invadePathX = invadePathX + invSpeedX;
           double coordshift;
-          coordshift = (0.1  * (invadePathX) - 50);
+          coordshift = (0.075  * (invadePathX) - 50);
           invadePathY = (float) coordshift;
 
 
@@ -120,13 +118,23 @@ public class Sketch extends PApplet {
     }
     if (difficulty == 2) {
       for (int i = 0; i < invArmy.length; i++) {
+        leftrightforward = leftrightforward + 1;
         if (anylivers[i] == 1) {
-          int leftrightforward = 0;
-          leftrightforward = leftrightforward + 4;
           invadePathX = invadePathX + invSpeedX;
           double coordshift;
-          coordshift = (0.025  * (invadePathX) - 50);
+          coordshift = (0.125  * (invadePathX) - 50);
           invadePathY = (float) coordshift;
+
+          if (leftrightforward < 800) {
+            invArmy[i] = invArmy[i] - 1;
+          }
+          if ((leftrightforward > 1000) && (leftrightforward < 1850)) {
+            invArmy[i] = invArmy[i] + 1;
+          }
+          if (leftrightforward == 2000) {
+            leftrightforward = 0;
+          }
+
 
 
           image(Aliens, invArmy[i], invadePathY - 50);
@@ -214,7 +222,6 @@ public class Sketch extends PApplet {
       keyleft = false;
     }
   }
-}
 }
 
 
