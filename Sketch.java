@@ -7,17 +7,26 @@ public class Sketch extends PApplet {
   PImage Gameover;
   PImage Shoota;
   PImage bullet;
+  PImage Aliens2;
 
 
   boolean createInvader = true; 
-  int [] anylivers = new int [15];
   int invaderCoord = 0;
-  int [] invArmy = new int[15];
+  float [] specArmy = new float [5];
+  int [] invArmy = new int[7];
   int invSpeedX = 1;
   float invadePathX = -100;
   float invadePathY = 500;
   boolean firststrike = false;
   int difficulty = 2;
+  float randenemy = random(1, 3);
+  float randspawnx[] = new float [5];
+  float randspawny[] = new float [5];
+  float enemypos = random(300, 700);
+  float enemypos2 = random(1, 2);
+  int posconvert;
+
+  
 
 
   int rightval = 0;
@@ -29,46 +38,10 @@ public class Sketch extends PApplet {
   boolean keyright = false;
   boolean keyleft = false;
   int leftrightforward = 0;
+  int highscore = 0;
   
 
-  int bulletspeed = 1;
-
-  class Bullet {
-    float x, y, w, h;
-    float speed, rotation, maxSpeed, minSpeed;
-    boolean firing;
   
-    Bullet() {
-      x = 100;
-      y = -100;
-      w = 20;
-      h = 10;
-  
-      speed = 0;
-      maxSpeed = 15;
-      minSpeed = 5;
-      firing = false;
-    }
-    void setStartLocation(float startX, float startY, float startRotation) {
-      if (firing == false) {
-        x = startX;
-        y = startY;
-        firing = true;
-        speed = 20;
-      }
-    }
-    void update() {
-      if (firing == true) {
-        if (speed > minSpeed) {
-          speed -= 0.3;
-        }
-      }
-    }
-  }
-
-  
-
-    
 
 
   public void settings() {
@@ -83,66 +56,89 @@ public class Sketch extends PApplet {
     Gameover = loadImage("Gameover.png");
     Shoota = loadImage("spaceship.png");
     bullet = loadImage ("bullet.png");
+    Aliens2 = loadImage("invader2.png");
     for (int i = 0; i < invArmy.length; i++) {
-      invaderCoord = invaderCoord + 50;
+      invaderCoord = invaderCoord + 100;
       invArmy[i] = invaderCoord;
-    for (int one = 0; one < anylivers.length; one++) {
-      anylivers[one] = 1;
     }
     
-
+    for ( int j = 0; j < specArmy.length; j++) {
+      specArmy[j] = randenemy;
+      randenemy = random(1, 4);
     }
+    for ( int k = 0; k < specArmy.length; k++) {
+      randspawnx[k] = enemypos;
+      enemypos = random(300, 700);
+    }
+    for ( int l = 0; l < specArmy.length; l++) {
+      if (enemypos2 > 1.5) {
+        posconvert = 0;
+      }
+      if (enemypos2 <= 1.5) {
+        posconvert = 500;
+      }
+      randspawny[l] = posconvert;
+      enemypos = random(1, 2);
+    }
+  
   }
+
 
   
   public void draw() {
     leftrightforward = leftrightforward + 1;
+    highscore = highscore + 1;
 
     background(0);
     if (difficulty == 1) {
       for (int i = 0; i < invArmy.length; i++) {
-        if (anylivers[i] == 1) {
-          invadePathX = invadePathX + invSpeedX;
-          double coordshift;
-          coordshift = (0.075  * (invadePathX) - 50);
-          invadePathY = (float) coordshift;
+        invadePathX = invadePathX + invSpeedX;
+        double coordshift;
+        coordshift = (0.075  * (invadePathX) - 50);
+        invadePathY = (float) coordshift;
 
 
-          image(Aliens, invArmy[i], invadePathY - 50);
-          image(Aliens, invArmy[i], invadePathY);
-          image(Aliens, invArmy[i], invadePathY - 100);
-          
-
+        image(Aliens, invArmy[i], invadePathY - 50);
+        image(Aliens, invArmy[i], invadePathY);
+      
+      
         }
       }
-    }
+    
+    
     if (difficulty == 2) {
       for (int i = 0; i < invArmy.length; i++) {
         leftrightforward = leftrightforward + 1;
-        if (anylivers[i] == 1) {
-          invadePathX = invadePathX + invSpeedX;
-          double coordshift;
-          coordshift = (0.125  * (invadePathX) - 50);
-          invadePathY = (float) coordshift;
+        invadePathX = invadePathX + invSpeedX;
+        double coordshift;
+        coordshift = (0.5  * (invadePathX) - 50);
+        invadePathY = (float) coordshift;
 
-          if (leftrightforward < 800) {
-            invArmy[i] = invArmy[i] - 1;
+        if (leftrightforward < 800) {
+          invArmy[i] = invArmy[i] - 1;
+        }
+        if ((leftrightforward > 1000) && (leftrightforward < 1850)) {
+          invArmy[i] = invArmy[i] + 1;
+        }
+        if (leftrightforward == 2000) {
+          leftrightforward = 0;
           }
-          if ((leftrightforward > 1000) && (leftrightforward < 1850)) {
-            invArmy[i] = invArmy[i] + 1;
+        image(Aliens, invArmy[i], invadePathY - 50);
+        image(Aliens, invArmy[i], invadePathY - 100);
+
+        for ( int j = 0; j < specArmy.length; j++) {
+          if (specArmy[j] == 1) {
+            image(Aliens2, randspawnx[j], randspawny[j]);
+            
+
           }
-          if (leftrightforward == 2000) {
-            leftrightforward = 0;
-          }
 
-
-
-          image(Aliens, invArmy[i], invadePathY - 50);
-          image(Aliens, invArmy[i], invadePathY);
-          image(Aliens, invArmy[i], invadePathY - 100);
-      }
+        
+        
     }
   }
+}
+    
     
     image(Shoota, 350 + rightval - leftval, 625 - upval + downval);
     
@@ -170,11 +166,7 @@ public class Sketch extends PApplet {
           leftval = leftval + 0;
         }
       }
-      if (keyCode == CONTROL) {
-        for (int l = 0; l < 200; l++) {
-          bulletspeed = bulletspeed + (1/2);
-        }
-    }
+
       
 
 
