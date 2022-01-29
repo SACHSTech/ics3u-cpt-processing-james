@@ -1,5 +1,11 @@
 import processing.core.PApplet;
 import processing.core.PImage;
+/*
+ * Purpose: "Race Invaders" is an award winning CPT game that uses arrays as * to create a spectacular Space war against Aliens. The purpose is to      * create a fun game while displaying usage of things learnt this course    * such as Methods, Processing, Conditionals, and more. 
+ * 
+ * Author: Andy Ho, James Bian
+ * Date: 1/28/22
+ */
 
 public class Sketch extends PApplet {
 
