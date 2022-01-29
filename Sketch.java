@@ -98,111 +98,6 @@ public class Sketch extends PApplet {
         alienY[x] = random(200,height-200);
       }
       for (int x = 0; x < aliens.length; x++) {
-... (364 lines left)
-Collapse
-message.txt
-11 KB
-﻿
-import processing.core.PApplet;
-import processing.core.PImage;
-
-public class Sketch extends PApplet {
-
-  //images
-  PImage Aliens;
-  PImage Gameover;
-  PImage Shoota;
-  PImage Shoota2;
-
-  //bullet mechanism variables
-  int ammo = 1000;
-  int truAmmo = 3;
-  int aCounter = 2;
-  int ammo2 = 1000;
-  int truAmmo2 = 3;
-  int aCounter2 = 2;
-  int hold = 1;
-  int hold2 = 1;
-  boolean addOne = false;
-  boolean addOne2 = false;
-  //Rectangle bullet2; 
-
-  float[] meteorX = new float[50];
-  float[] meteorY = new float[50];
-  float[] alienX = new float[10];
-  float[] alienY = new float[10];
-  boolean[] aliens = new boolean[10];
-  float[] bx = new float[ammo];
-  float[] by = new float[ammo];
-  float[] bx2 = new float[ammo];
-  float[] by2 = new float[ammo];
-
-  //navigation 
-  int rightval = 0;
-  int upval = 0;
-  int downval = 0;
-  int leftval = 0;
-  int aVal = 0;
-  int sVal = 0;
-  int dVal = 0;
-  int wVal = 0;
-
-  //navigations
-  float ypoint = 700 - upval + downval;
-  float ypoint2 = 700 - wVal + sVal;
-  float xpoint = 600 + rightval - leftval;
-  float xpoint2 =  200 + aVal - dVal;
-
-  //navigations again
-  boolean keyup = false;
-  boolean keydown = false;
-  boolean keyright = false;
-  boolean keyleft = false;
-  boolean wUp = false;
-  boolean aLeft = false;
-  boolean sDown = false;
-  boolean dRight = false;
-  boolean xShoot, xShot = false;
-  boolean xShoot2, xShot2 = false;
-  boolean shiftShoot = false;
-
-  //counter things
-  float counter = 0;
-  float counter2 = 0;
-  int randomMore = 0;
-
-  //gamemode
-  boolean gameover = false;
-
-  public void settings() {
-    size(800, 800);
-    
-  }
-  
-  public void setup() {
-    
-    frameRate(80);
-    background(0);
-
-    Aliens = loadImage("invader.png");
-    Gameover = loadImage("Gameover.png");
-    Shoota = loadImage("spaceship.png");
-    Shoota2 = loadImage("spaceship2.png");
-
-    //creates random values for space collision items
-      for (int x = 0; x < meteorX.length; x++) {
-        meteorX[x] = random(width);
-      }
-      for (int x = 0; x < meteorY.length; x++) {
-        meteorY[x] = random(0,height-200);
-      }
-      for (int x = 0; x < alienX.length; x++) {
-        alienX[x] = random(100,height-100);
-      }
-      for (int x = 0; x < alienY.length; x++) {
-        alienY[x] = random(200,height-200);
-      }
-      for (int x = 0; x < aliens.length; x++) {
         aliens[x] = true;
       }
   }
@@ -221,6 +116,9 @@ public class Sketch extends PApplet {
     if(counter2 >= 0){
       text(counter2,500,750);
     }
+
+    text("ammo = " + truAmmo,300,750);
+    text("ammo = " + truAmmo2,700,750);
 
     //draws space collision items
     for (int i = 0; i < meteorX.length; i++) {
@@ -421,6 +319,7 @@ public class Sketch extends PApplet {
       aCounter2 = aCounter2 + 3;
       upval = 0;
       downval = 0;
+      truAmmo2 = truAmmo2 + 3;
     }
 
     if (ypoint2 <= -40){
@@ -428,6 +327,7 @@ public class Sketch extends PApplet {
       aCounter = aCounter + 3;
       wVal = 0;
       sVal = 0;
+      truAmmo = truAmmo + 3;
     }
 
     //aliens wiped out respawn
@@ -498,6 +398,7 @@ public class Sketch extends PApplet {
         }
         if(aCounter>0){
         aCounter--;
+        truAmmo--;
         xShoot = true;
         }
       if (xShoot){
@@ -513,6 +414,7 @@ public class Sketch extends PApplet {
       }
       if(aCounter2>0){
         aCounter2--;
+        truAmmo2--;
         xShoot2 = true;
       }
       if (xShoot2){
